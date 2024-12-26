@@ -1,3 +1,5 @@
+
+import { mtConfig } from "@material-tailwind/react";
 import type { Config } from "tailwindcss";
 
 export default {
@@ -14,5 +16,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [mtConfig],
 } satisfies Config;
