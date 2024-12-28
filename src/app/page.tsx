@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Component/Header';
 import Intro from './Component/Intro';
 import Doctors from './Component/Doctors';
-
+<link  rel="stylesheet"  href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"/>
 
 
 export default function Home() {
@@ -13,7 +13,10 @@ export default function Home() {
     <div>
       <Header></Header>
       <Intro></Intro>
-      <Doctors></Doctors>
+      
+        <Doctors></Doctors>
+      
+      
     </div>
   );
 }
