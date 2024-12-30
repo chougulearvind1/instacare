@@ -1,12 +1,14 @@
 "use client";
 
 
-import React, {  useEffect,  useRef } from 'react'
-import {TabulatorFull as Tabulator} from "tabulator-tables";
+import React,{  useEffect,  useRef } from 'react'
+import { TabulatorFull as Tabulator} from "tabulator-tables";
 import "tabulator-tables/dist/css/tabulator.min.css";
 import { createRoot } from 'react-dom/client';
 import Image from 'next/image';
 import { Button } from '@material-tailwind/react';
+import ClickPopup from './ClickPopup';
+
 
 
 
@@ -28,7 +30,7 @@ interface Doctor {
 const Doctors = () => {
     
     const tableRef = useRef<HTMLDivElement>(null);
-      
+        
   
     useEffect(() => {
 
@@ -44,15 +46,19 @@ const Doctors = () => {
       // Initialize Tabulator
       const table = new Tabulator(tableRef.current!, {
         data: doctors, // Assign 
-        layout: "fitDataFill", // Fit columns to width of table
+      
+        layout: "fitColumns", // Fit columns to width of table
         responsiveLayout: "collapse", // Hide columns that don't fit
         initialSort: [{ column: "rating", dir: "desc" }], // Sort by rating descending by default
         columns: [
-          { title: "ID", field: "id", sorter: "number", width: 50 },
+          { title: "ID", field: "id", sorter: "number", width: 50,cellClick:() => {
+            console.log("cell click");
+            return <ClickPopup></ClickPopup>
+          },},
           {
             title: "Image",
             field: "dr_img",
-            cssClass:"h-full ",
+            cssClass:"h-full",
             formatter: (cell) => {
               const container=document.createElement("div")
               const root = createRoot(container);
@@ -60,19 +66,19 @@ const Doctors = () => {
               console.log(container,'container');
               return container;
             },
-            width:80,
+            width:60,
             
           },
-          { title: "Name", field: "name", sorter: "string", headerFilter: "input",widthGrow:2 , cssClass:'!whitespace-normal !break-words leading-relaxed',
+          { title: "Name", field: "name", sorter: "string", headerFilter: "input",minWidth:110, widthGrow:2 , cssClass:'!text-left !whitespace-normal !break-words leading-relaxed',
             formatter:(cell) =>{
               const container=document.createElement("div")
               const root = createRoot(container);
-              root.render(<h5  className="itemcenter  tracking-tight text-black dark:text-white mb-4 "> Dr.{cell.getValue()} </h5>)
+              root.render(<h5  className="itemcenter   tracking-tight text-black dark:text-white mb-4 "> Dr.{cell.getValue()} </h5>)
               console.log(container,'container');
               return container;
             } 
            },
-          { title: "Specialization", field: "specialization", sorter: "string", headerFilter: "input",maxWidth:130,
+          { title: "Specialization", field: "specialization", sorter: "string", headerFilter: "input",maxWidth:150,
             formatter:(cell) => {
               const container=document.createElement("div")
               const root = createRoot(container);
@@ -81,7 +87,7 @@ const Doctors = () => {
               return container;
             } 
           },
-          { title: "Rating",  field: "rating",sorter: "number",maxWidth:60,cssClass:'!whitespace-normal !break-words leading-relaxed',
+          { title: "Rating",  field: "rating",sorter: "number",width:100,cssClass:'!whitespace-normal !break-words leading-relaxed',
               formatter: (cell) =>  {
                 const container=document.createElement("div")
                 const root = createRoot(container);
@@ -98,11 +104,10 @@ const Doctors = () => {
             formatter: (cell) => {
               const container=document.createElement("div")
               const root = createRoot(container);
-              root.render(<span className="itemcenter text-green-700 font-semibold" >{cell.getValue()}%</span>)
-              console.log(container,'container');
+              root.render(<span className="itemcenter text-green-700 font-semibold" >{cell.getValue()}%</span>)              
               return container;
             } ,
-            maxWidth:80,
+           
           },
           { title: "Clinic Name", field: "clinicName",headerFilter: "input",  maxWidth:150 ,formatter: (cell) => {
             const container=document.createElement("div")
@@ -124,32 +129,49 @@ const Doctors = () => {
           
           {
             title: "Book Now",
-            formatter: () => {
+            formatter:()=> {
               const container=document.createElement("div")
               const root = createRoot(container);
-              root.render(<Button className="itemcenter" size='md'color='primary' variant='gradient'isPill>Book Now</Button>)
-              console.log(container,'container');
+              root.render(<Button className="itemcenter btn-action" size='sm'color='primary' variant='gradient'isPill>Book Now</Button>)
               return container;
             },
-            cellClick: ( _cell,e) => {
-                const doctorName = e.getRow();
-                console.log(doctorName ,'doctorName')
-               
+            
+            cellClick: (e,cell) => {
+              console.log("Button clicked:")
+              if ((e.target as HTMLElement).classList.contains("btn-action")) {
+                e.stopPropagation();
+                console.log("Button clicked:", cell.getRow().getData());
+              }           
             },
+            
+           
         },
         ],
         rowFormatter:(row) => { 
           
           const rowElement = row.getElement()
-          rowElement.style.height = "80px";
+          rowElement.style.height = "60px";
+          
+          
+          
          },
          autoResize:true,
          
+         columnDefaults:{
+           tooltip:() => { 
+            
+            return "Click or Tap to see Deoctor Profile";
+            },
+          
+         },
+        rowClickPopup: "<div>doctor profile will develop  Later</div>"
+        
+         
          
       });
-      
+     
       return () => {
-        // Cleanup Tabulator instance
+        // Cleanup Tabulator 
         table.destroy()
         
       };
