@@ -1,13 +1,15 @@
 "use client";
 
 
-import React,{  useEffect,  useRef } from 'react'
+import React,{  useEffect,  useRef, useState } from 'react'
 import { TabulatorFull as Tabulator} from "tabulator-tables";
-import "tabulator-tables/dist/css/tabulator.min.css";
+// import "tabulator-tables/dist/css/tabulator.min.css";
 import { createRoot } from 'react-dom/client';
 import Image from 'next/image';
-import { Button } from '@material-tailwind/react';
 import ClickPopup from './ClickPopup';
+// import Booking from './Booking';
+import { Button } from '@material-tailwind/react';
+
 
 
 
@@ -30,6 +32,7 @@ interface Doctor {
 const Doctors = () => {
     
     const tableRef = useRef<HTMLDivElement>(null);
+    const [IsOpen,setIsOpen] = useState<boolean>(false)
         
   
     useEffect(() => {
@@ -62,7 +65,7 @@ const Doctors = () => {
             formatter: (cell) => {
               const container=document.createElement("div")
               const root = createRoot(container);
-              root.render(<Image src={cell.getValue()} alt='dr' layout="fill" style={{width:'100%',height:'100%'}} className='object-cover object-center rounded-full '/>)
+              root.render(<Image src={cell.getValue()} alt='dr' layout="fill" sizes='100%' style={{width:'100%',height:'100%'}} className='object-cover object-center rounded-full '/>)
               console.log(container,'container');
               return container;
             },
@@ -136,11 +139,11 @@ const Doctors = () => {
               return container;
             },
             
-            cellClick: (e,cell) => {
-              console.log("Button clicked:")
+            cellClick: (e) => {
+             
               if ((e.target as HTMLElement).classList.contains("btn-action")) {
                 e.stopPropagation();
-                console.log("Button clicked:", cell.getRow().getData());
+                setIsOpen(true)
               }           
             },
             
@@ -178,6 +181,7 @@ const Doctors = () => {
     }, [])
   
     return <><div ref={tableRef}></div>
+     {/* {IsOpen && <Booking IsOpen={IsOpen}></Booking>} */}
     <style>
       {`
       .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {
