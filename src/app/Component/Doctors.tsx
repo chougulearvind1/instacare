@@ -3,11 +3,11 @@
 
 import React,{  useEffect,  useRef, useState } from 'react'
 import { TabulatorFull as Tabulator} from "tabulator-tables";
-// import "tabulator-tables/dist/css/tabulator.min.css";
+import "tabulator-tables/dist/css/tabulator.min.css";
 import { createRoot } from 'react-dom/client';
 import Image from 'next/image';
 import ClickPopup from './ClickPopup';
-// import Booking from './Booking';
+import Booking from './Booking';
 import { Button } from '@material-tailwind/react';
 
 
@@ -17,7 +17,8 @@ import { Button } from '@material-tailwind/react';
 
 
 
-interface Doctor {
+
+export interface Doctor {
     dr_img:string;
     id: string;
     name: string;
@@ -32,11 +33,13 @@ interface Doctor {
 const Doctors = () => {
     
     const tableRef = useRef<HTMLDivElement>(null);
-    const [IsOpen,setIsOpen] = useState<boolean>(false)
+    
+    const [Profile, setProfile] = useState<Doctor>()
+    const [OpenBook, setOpenBook] = useState(false)
+
         
   
     useEffect(() => {
-
        // Sample Doctor Data
     const doctors:Doctor[] = [
         { dr_img:"/Dr_Profiles/dr1.jpeg",id: "1", name: " Arvind Chougule", specialization: "Cardiologist", rating: 4.5, discount: 2,clinicName:"lifeline",clinicAddress:"Solapur"},
@@ -44,12 +47,10 @@ const Doctors = () => {
         { dr_img:"/Dr_Profiles/dr2.jpeg",id: "2", name: " Jane", specialization: "Dermatologist", rating: 3.8, discount: 0 ,clinicName:"gavade clinic",clinicAddress:"pandharpur"},
         { dr_img:"/Dr_Profiles/dr3.jpeg",id: "3", name: " Mike", specialization: "Dentist", rating: 4.2, discount: 1 ,clinicName:"sadgurue clinic",clinicAddress:"tarapur"},
         { dr_img:"/Dr_Profiles/dr4.jpeg",id: "4", name: " Emily", specialization: "Pediatrician", rating: 5.0, discount: 5 ,clinicName:"sanjivani clinic",clinicAddress:"Solapur"},
-      ];
-      
+      ];      
       // Initialize Tabulator
       const table = new Tabulator(tableRef.current!, {
-        data: doctors, // Assign 
-      
+        data: doctors, // Assign       
         layout: "fitColumns", // Fit columns to width of table
         responsiveLayout: "collapse", // Hide columns that don't fit
         initialSort: [{ column: "rating", dir: "desc" }], // Sort by rating descending by default
@@ -139,12 +140,16 @@ const Doctors = () => {
               return container;
             },
             
-            cellClick: (e) => {
-             
+            cellClick: (e,cell) => {
+              const rowdata:Doctor= cell.getData()as Doctor
               if ((e.target as HTMLElement).classList.contains("btn-action")) {
                 e.stopPropagation();
-                setIsOpen(true)
-              }           
+              } 
+              setOpenBook(true)
+              console.log(rowdata.name,'row')
+              setProfile(rowdata);
+              
+
             },
             
            
@@ -181,7 +186,7 @@ const Doctors = () => {
     }, [])
   
     return <><div ref={tableRef}></div>
-     {/* {IsOpen && <Booking IsOpen={IsOpen}></Booking>} */}
+     { OpenBook && Profile!=undefined && <Booking data={Profile} ></Booking>}
     <style>
       {`
       .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {

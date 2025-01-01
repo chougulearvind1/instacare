@@ -8,8 +8,8 @@ export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    // "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    // "./node_modules/@material-tailwind/react/**/*.{js,ts,jsx,tsx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@material-tailwind/react/**/*.{js,ts,jsx,tsx}",
     // "./node_modules/@material-tailwind/react/src/components/**/*.{js,ts,jsx,tsx}",
     // "./node_modules/@material-tailwind/react/src/theme/**/*.{js,ts,jsx,tsx}",
     // "./node_modules/@material-tailwind/react/dist/components/**/*.{js,ts,jsx,tsx}",
