@@ -3,12 +3,16 @@ import React from "react";
 import { DayPicker } from "react-day-picker";
 import classNames from "react-day-picker/style.module.css";
 
-export function MyDatePicker() {
+
+
+
+const DatePick = () => {
   const [selected, setSelected] = React.useState<Date>();
   
   return (
     <DayPicker
       mode="single"
+      
       onSelect={setSelected}
       selected={selected}
       disabled={{before:new Date()}}
@@ -16,6 +20,7 @@ export function MyDatePicker() {
       components={{
         DayButton: (props) => {
           const { day,  ...buttonProps } = props;
+          
           return (
             <button
               {...buttonProps}
@@ -31,3 +36,6 @@ export function MyDatePicker() {
     />
   );
 }
+
+export default DatePick
+

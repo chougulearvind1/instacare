@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const ClickPopup = () => {
   
-  console.log(Popover,'popover');
+ 
        return(
         <h3>hii</h3>
         // <Popover  placement="bottom-start">
