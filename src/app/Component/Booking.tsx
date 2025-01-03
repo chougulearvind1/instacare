@@ -1,7 +1,7 @@
 "use client";
 
 
-import React, {  useState}   from 'react'
+import React, {  Dispatch, SetStateAction, useState}   from 'react'
 import {
   Dialog,
   Button,
@@ -20,15 +20,16 @@ import { Doctor } from './Doctors';
 
 interface bookingProp{
   data: Doctor
+  close:Dispatch<SetStateAction<boolean>>
 } 
 
-const Booking: React.FC<bookingProp> = ({data}) => {
+const Booking: React.FC<bookingProp> = ({data,close}) => {
     const TimeSlot :string[ ]=['10.00 am','11.00 am','1:00 pm','2:00 pm','3:00 pm']
     
     const [SelectedSlot, setSelectedSlot] = useState("")
-     console.dir(data);
+    
     return (
-      <Dialog size="lg"open={data != null &&  Object.keys(data).length > 0}>
+      <Dialog size="lg"open={data != null &&  Object.keys(data).length > 0} >
      
       <Dialog.Overlay>
         <Dialog.Content>
@@ -39,23 +40,33 @@ const Booking: React.FC<bookingProp> = ({data}) => {
             color="secondary"
             className="absolute right-2 top-2"
             isCircular
+            onClick={() => { close(false)}}
           >
             ❌
           </Dialog.DismissTrigger>
           <div className='flex content-center justify-around'>
                <div>
                <Card className="max-w-xs">
-      <Card.Header
-        as="img"
-        src={data.dr_img}
-        alt="profile-picture"
-      />
+      <Card.Header as="img" src={data.dr_img}   alt="profile-picture" />
+      <div className="mb-2 flex items-center justify-between">
+          <Typography type="lead">Consultancy Fee</Typography>
+          <Typography type="lead">100.00</Typography>
+        </div>
       <Card.Body className="text-center">
         <Typography type="h5">{data?.name}</Typography>
         <Typography className="my-1 text-foreground">
           {data?.specialization}
         </Typography>
-
+        <Typography type="h4">⭐{data.rating}</Typography>
+        <span className="itemcenter text-orange-950 font-semibold" ></span>
+        <div className="mb-2 flex items-center justify-between">
+          <Typography type="lead">Clinic Name:</Typography>
+          <Typography type="lead">{data.clinicName}</Typography>
+        </div>
+        <div className="mb-2 flex items-center justify-between">
+          <Typography type="lead">Clinic Address:</Typography>
+          <Typography type="lead">{data.clinicAddress}</Typography>
+        </div>
       </Card.Body>
       <Card.Footer className="flex items-center justify-center gap-1">
         <Tooltip>
@@ -96,7 +107,7 @@ const Booking: React.FC<bookingProp> = ({data}) => {
           
   
           <form action="#" className="mt-2">
-            <div className="mb-4 mt-2 space-y-1.5">
+            <div className="mb-2 mt-2 space-y-1.5">
 
               <Typography
                 as="label"

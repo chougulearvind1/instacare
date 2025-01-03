@@ -27,6 +27,7 @@ export interface Doctor {
     discount: number;
     clinicName:string;
     clinicAddress:string;
+    busySlot:string[]
     
   }
     
@@ -42,11 +43,11 @@ const Doctors = () => {
     useEffect(() => {
        // Sample Doctor Data
     const doctors:Doctor[] = [
-        { dr_img:"/Dr_Profiles/dr1.jpeg",id: "1", name: " Arvind Chougule", specialization: "Cardiologist", rating: 4.5, discount: 2,clinicName:"lifeline",clinicAddress:"Solapur"},
-        { dr_img:"/Dr_Profiles/dr2.jpeg",id: "2", name: " Jane", specialization: "Dermatologist", rating: 3.8, discount: 3 ,clinicName:"gavade clinic",clinicAddress:"kolhapur"},
-        { dr_img:"/Dr_Profiles/dr2.jpeg",id: "2", name: " Jane", specialization: "Dermatologist", rating: 3.8, discount: 0 ,clinicName:"gavade clinic",clinicAddress:"pandharpur"},
-        { dr_img:"/Dr_Profiles/dr3.jpeg",id: "3", name: " Mike", specialization: "Dentist", rating: 4.2, discount: 1 ,clinicName:"sadgurue clinic",clinicAddress:"tarapur"},
-        { dr_img:"/Dr_Profiles/dr4.jpeg",id: "4", name: " Emily", specialization: "Pediatrician", rating: 5.0, discount: 5 ,clinicName:"sanjivani clinic",clinicAddress:"Solapur"},
+        { dr_img:"/Dr_Profiles/dr1.jpeg",id: "1", name: " Arvind Chougule", specialization: "Cardiologist", rating: 4.5, discount: 2,clinicName:"lifeline",clinicAddress:"Solapur",busySlot:['']},
+        { dr_img:"/Dr_Profiles/dr2.jpeg",id: "2", name: " Jane", specialization: "Dermatologist", rating: 3.8, discount: 3 ,clinicName:"gavade clinic",clinicAddress:"kolhapur",busySlot:['']},
+        { dr_img:"/Dr_Profiles/dr2.jpeg",id: "2", name: " Jane", specialization: "Dermatologist", rating: 3.8, discount: 0 ,clinicName:"gavade clinic",clinicAddress:"pandharpur",busySlot:['']},
+        { dr_img:"/Dr_Profiles/dr3.jpeg",id: "3", name: " Mike", specialization: "Dentist", rating: 4.2, discount: 1 ,clinicName:"sadgurue clinic",clinicAddress:"tarapur",busySlot:['']},
+        { dr_img:"/Dr_Profiles/dr4.jpeg",id: "4", name: " Emily", specialization: "Pediatrician", rating: 5.0, discount: 5 ,clinicName:"sanjivani clinic",clinicAddress:"Solapur",busySlot:['']},
       ];      
       // Initialize Tabulator
       const table = new Tabulator(tableRef.current!, {
@@ -186,7 +187,7 @@ const Doctors = () => {
     }, [])
   
     return <><div ref={tableRef}></div>
-     { OpenBook && Profile!=undefined && <Booking data={Profile} ></Booking>}
+     { OpenBook && Profile!=undefined && <Booking data={Profile} close={setOpenBook} ></Booking>}
     <style>
       {`
       .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {

@@ -11,13 +11,14 @@ import "react-day-picker/style.css";
 export default function Home() {
   return (
     <div>
+      
       <Header></Header>
       <Intro></Intro>
       
         <Doctors></Doctors>
         
       
-      hii
+      
     </div>
   );
 }
